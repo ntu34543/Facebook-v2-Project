@@ -76,10 +76,8 @@ const App: () => Node = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section>
-            <Icons name="home" size={32} color="black" />
-          </Section>
           <Section title="Step One">
+            <Icons name="user" size={32} color="black" />
             Edit <Text style={styles.highlight}>App.js</Text> to change this
             screen and then come back to see your edits.
           </Section>
