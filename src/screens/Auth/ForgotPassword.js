@@ -1,87 +1,45 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+  TextInput,
+} from 'react-native';
+import React from 'react';
+import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
+import Icons from 'react-native-vector-icons/FontAwesome';
 
-const Login = () => {
+const ForgotPassword = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-      {loading && (
-        <View style={styles.loadingWrapper}>
-          <View style={styles.loading}>
-            <Animated.Image
-              onLayout={_animationLoadingDeg}
-              style={{
-                width: 30,
-                height: 30,
-                marginRight: 10,
-                transform: [
-                  {
-                    rotate: _loadingDeg.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ['0deg', '360deg'],
-                    }),
-                  },
-                ],
-              }}
-              source={require('../../assets/icons/waiting.png')}
-            />
-            <Text
-              style={{
-                fontWeight: '500',
-              }}>
-              Logining...
-            </Text>
-          </View>
-        </View>
-      )}
-      <View style={styles.languageChooser}>
-        <TouchableOpacity style={styles.btnCurLanguage}>
-          <Text style={styles.curLanguage}>Tieng Viet (Viet Nam)</Text>
-          <Icon name="chevron-down" size={20} color="#333" />
-        </TouchableOpacity>
-      </View>
       <View style={styles.centerContainer}>
         <View style={styles.logoWrapper}>
           <Image
             resizeMode="contain"
             style={styles.logo}
-            source={require('../../assets/images/logo.png')}
+            source={require('../../assets/images/forgot-pw.png')}
           />
         </View>
+        <Text>Trouble with logging in?</Text>
+        <Text>
+          Enter your username, phone number or email address and we'll send you
+          a link to get back into your account.
+        </Text>
         <View style={styles.loginForm}>
           <View style={styles.textInputWrapper}>
             <TextInput
               autoCapitalize="none"
-              value={username}
-              onChangeText={_onChangeUsername}
               placeholder="Username, email or phone number"
               style={styles.input}
             />
           </View>
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              value={password}
-              onChangeText={_onChangePassword}
-              secureTextEntry={hidePassword}
-              placeholder="Password"
-              style={styles.input}
-            />
-            <TouchableOpacity
-              style={styles.hidePasswordIcon}
-              onPress={_onPressToggleHidePassword}>
-              {hidePassword ? (
-                <Icon name="eye-off-outline" size={20} color="#333" />
-              ) : (
-                <Icon name="eye-outline" color="#318bfb" size={20} />
-              )}
-            </TouchableOpacity>
-          </View>
           <TouchableOpacity
-            onPress={_onLogin}
-            disabled={!allowLogin}
             activeOpacity={0.6}
             style={{
               ...styles.btnLogin,
-              opacity: allowLogin ? 1 : 0.6,
+              opacity: 1,
             }}>
             <Text
               style={{
@@ -89,7 +47,7 @@ const Login = () => {
                 color: '#fff',
                 fontWeight: '500',
               }}>
-              Login
+              Next
             </Text>
           </TouchableOpacity>
         </View>
@@ -107,11 +65,10 @@ const Login = () => {
               <Text
                 style={{
                   fontWeight: '500',
-                  color: '#333',
+                  color: '#318bfb',
                 }}>
-                Did your forget your login information?
+                Can't reset your password?
               </Text>{' '}
-              Get helping to login.
             </Text>
           </TouchableOpacity>
           <View style={styles.divideLine}>
@@ -126,7 +83,12 @@ const Login = () => {
             </View>
           </View>
           <TouchableOpacity style={styles.btnLoginWithFacebook}>
-            <Icon name="facebook" color="#318bfb" size={20} />
+            <Icons
+              style={styles.iconFb}
+              name="facebook-square"
+              size={21}
+              color="#318bfb"
+            />
             <Text
               style={{
                 color: '#318bfb',
@@ -137,10 +99,7 @@ const Login = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={_onPressRegister}
-        activeOpacity={1}
-        style={styles.registerWrapper}>
+      <TouchableOpacity activeOpacity={1} style={styles.registerWrapper} onPress={() => {navigation.navigate('Login')}}>
         <Text
           style={{
             textAlign: 'center',
@@ -150,38 +109,25 @@ const Login = () => {
           <Text
             style={{
               fontWeight: '500',
-              color: '#333',
+              color: '#318bfb',
             }}>
-            Don't have account?
+            Back to Login
           </Text>{' '}
-          Register now.
         </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
-export default Login;
+export default ForgotPassword;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     height: SCREEN_HEIGHT,
   },
-  languageChooser: {
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnCurLanguage: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  curLanguage: {
-    color: '#333',
-  },
   centerContainer: {
-    height: SCREEN_HEIGHT - 50 - 40 - STATUS_BAR_HEIGHT,
+    height: SCREEN_HEIGHT - STATUS_BAR_HEIGHT,
     width: SCREEN_WIDTH,
     justifyContent: 'center',
     alignItems: 'center',
@@ -190,7 +136,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logo: {
-    height: 64,
+    height: 80,
     overflow: 'hidden',
   },
   loginForm: {
@@ -261,6 +207,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  iconFb: {
+    marginRight: 10,
   },
   registerWrapper: {
     height: 50,
