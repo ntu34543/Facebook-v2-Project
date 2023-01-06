@@ -31,7 +31,9 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/home.jpg')}
+                source={{
+                  re
+                }}
               />
             );
           },
@@ -45,7 +47,9 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/search.jpg')}
+                source={{
+                  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
+                }}
               />
             );
           },
@@ -59,7 +63,9 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/post.jpg')}
+                source={{
+                  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
+                }}
               />
             );
           },
@@ -73,7 +79,9 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/heartNone.jpg')}
+                source={{
+                  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
+                }}
               />
             );
           },
@@ -87,7 +95,9 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/user.jpg')}
+                source={{
+                  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
+                }}
               />
             );
           },
