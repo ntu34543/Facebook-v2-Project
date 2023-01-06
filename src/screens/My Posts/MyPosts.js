@@ -30,7 +30,7 @@ const MyPosts = () => {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log(image);
+      setImage(image.path);
     });
   };
 
@@ -40,7 +40,6 @@ const MyPosts = () => {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log(image);
       setImage(image.path);
     });
   };
