@@ -1,16 +1,11 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React from 'react';
 import HomePage from '../screens/Home/Home';
-import Profile from '../screens/Profile/Profile';
 import MyPosts from '../screens/My Posts/MyPosts';
-import LogoTitle from '../themes/LogoTitle';
-import Search from '../screens/Search/Search';
 import Notify from '../screens/Notify/Notify';
+import Profile from '../screens/Profile/Profile';
+import Search from '../screens/Search/Search';
+import LogoTitle from '../themes/LogoTitle';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,7 +44,11 @@ const ProfileStackNavigator = () => {
 const PostStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="Post" component={MyPosts} />
+      <Stack.Screen
+        name="Post"
+        component={MyPosts}
+        options={{title: 'Bài Viết Mới'}}
+      />
     </Stack.Navigator>
   );
 };
@@ -68,4 +67,10 @@ const NotifyStackNavigator = () => {
   );
 };
 
-export {HomeStackNavigator, ProfileStackNavigator, PostStackNavigator, SearchStackNavigator, NotifyStackNavigator};
+export {
+  HomeStackNavigator,
+  ProfileStackNavigator,
+  PostStackNavigator,
+  SearchStackNavigator,
+  NotifyStackNavigator,
+};
