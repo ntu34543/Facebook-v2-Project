@@ -45,7 +45,7 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/search.jpg')}
+                source={require('../assets/Icons/home.jpg')}
               />
             );
           },
@@ -59,7 +59,7 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/post.jpg')}
+                source={require('../assets/Icons/home.jpg')}
               />
             );
           },
@@ -73,7 +73,7 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/heartNone.jpg')}
+                source={require('../assets/Icons/home.jpg')}
               />
             );
           },
@@ -87,7 +87,7 @@ const BottomTabNavigator = () => {
             return (
               <Image
                 style={{width: size, height: size}}
-                source={require('../assets/Icons/user.jpg')}
+                source={require('../assets/Icons/home.jpg')}
               />
             );
           },

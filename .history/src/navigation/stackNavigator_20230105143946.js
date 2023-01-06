@@ -5,7 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import HomePage from '../screens/Home/HomePage';
+import HomePage from '../screens/Home/Home';
 import Profile from '../screens/Profile/Profile';
 import MyPosts from '../screens/My Posts/MyPosts';
 import LogoTitle from '../themes/LogoTitle';
@@ -18,7 +18,7 @@ const screenOptionStyle = {
   tabBarActiveTintColor: 'tomato',
   tabBarInactiveTintColor: 'gray',
   headerStyle: {
-    backgroundColor: 'white',
+    backgroundColor: '#FAFAFA',
   },
   headerTintColor: 'black',
   headerTitleStyle: {
