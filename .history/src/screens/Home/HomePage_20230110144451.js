@@ -17,9 +17,9 @@ import database from '@react-native-firebase/database';
 import useLoadMore from '../../hooks/useLoadMore';
 
 const HomePage = ({navigation}) => {
-  const ref = database().ref('posts');
+  // const reference = database().ref('posts');
+  const ref = database().ref('items');
   const limit = 10;
-  console.log(ref);
   const {items, loading, endReached, loadMore} = useLoadMore(ref, limit);
 
   // const collection = firestore().collection('posts');

@@ -19,7 +19,7 @@ const HomePost = ({item}) => {
           <TouchableOpacity>
             <Image
               style={HomeHeaderStyle.userAvatar}
-              source={{uri: item.img,}}
+              source={{item.img}}
             />
           </TouchableOpacity>
           <TouchableOpacity>

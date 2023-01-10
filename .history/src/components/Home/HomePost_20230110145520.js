@@ -102,8 +102,8 @@ const HomePost = ({item}) => {
               paddingTop: 10,
             }}>
             <Text style={HomeBodyStyle.comment}>
-              <Text style={{fontWeight: 'bold'}}>joshua_l</Text> The game in
-              Japan was amazing and I want to share some photos
+              <Text style={{fontWeight: 'bold'}}>joshua_l</Text> {The game in
+              Japan was amazing and I want to share some photos}
             </Text>
           </View>
         </View>

@@ -10,28 +10,18 @@ import {
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import firestore from '@react-native-firebase/firestore';
-import useFirestoreCollection from '../../hooks/useFirestoreCollection';
+import useLoadMore from '../../hooks/useLoadMore';
 import React, {useEffect} from 'react';
 import HomePost from '../../components/Home/HomePost';
 import database from '@react-native-firebase/database';
-import useLoadMore from '../../hooks/useLoadMore';
 
 const HomePage = ({navigation}) => {
-  const ref = database().ref('posts');
+  const reference = database().ref('posts');
+  const ref =database().ref('items');
   const limit = 10;
-  console.log(ref);
-  const {items, loading, endReached, loadMore} = useLoadMore(ref, limit);
+  const { items, loading, endReached, loadMore } = useLoadMore(ref, limit);
 
-  // const collection = firestore().collection('posts');
-  // const pageSize = 6;
-  // const page = 2;
-  // const {data, loading, error, refresh} = useFirestoreCollection(
-  //   collection,
-  //   pageSize,
-  //   page,
-  // );
-
-  console.log(items);
+  console.log(data);
   // useEffect(() => {
   //   refresh();
   // }, []);
@@ -44,13 +34,13 @@ const HomePage = ({navigation}) => {
     );
   }
 
-  // if (error) {
-  //   return (
-  //     <View style={HomeStyle.emptyContainer}>
-  //       <Text style={HomeStyle.emptyMessageStyle}>Error: {error.message}</Text>
-  //     </View>
-  //   );
-  // }
+  if (error) {
+    return (
+      <View style={HomeStyle.emptyContainer}>
+        <Text style={HomeStyle.emptyMessageStyle}>Error: {error.message}</Text>
+      </View>
+    );
+  }
 
   navigation.setOptions(
     {
@@ -96,8 +86,8 @@ const HomePage = ({navigation}) => {
           renderItem={({item}) => {
             return <HomePost item={item} />;
           }}
-          // onRefresh={refresh}
-          // refreshing={loading}
+          onRefresh={refresh}
+          refreshing={loading}
         />
       )}
     </>
