@@ -4,6 +4,8 @@ import React, {useRef, useState} from 'react';
 import {
   Button,
   Image,
+  Modal,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -19,12 +21,13 @@ import Option from '../../components/option';
 import {addressList, musicList} from '../../untils/constants';
 
 const MyPosts = ({navigation}) => {
+  const URLImg =
+    'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0';
   const refRBSheet = useRef();
 
   const [content, setContent] = useState('');
-  const [image, setImage] = useState(
-    'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0',
-  );
+  const [image, setImage] = useState(URLImg);
+  const [modalVisible, setModalVisible] = useState(false);
 
   async function addPost() {
     firestore()
@@ -40,6 +43,8 @@ const MyPosts = ({navigation}) => {
       })
       .then(() => {
         navigation.navigate('Home');
+        setContent('');
+        setImage(URLImg);
       })
       .catch(error => {
         alert(error.message);
@@ -65,7 +70,6 @@ const MyPosts = ({navigation}) => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
       const bucketFile = `image/${imageName}`;
       const pathToFile = image.path;
-      console.log('link ở đây nèeeee', pathToFile);
       let reference = storage().ref(bucketFile); // 2
       let task = reference.putFile(pathToFile); // 3
       task
@@ -73,39 +77,8 @@ const MyPosts = ({navigation}) => {
           setImage(pathToFile);
         })
         .catch(e => console.log('uploading image error => ', e));
-      // task
-      //   .then(() => {
-      //     // 4
-      //     console.log('Image uploaded to the bucket!');
-      //     console.log('Image', pathToFile);
-      //     setImage(pathToFile);
-      //   })
-      //   .catch(e => console.log('uploading image error => ', e));
     });
   };
-
-  // const handleOnPressPost = async (
-  //   image,
-  //   content,
-  //   totalLike,
-  //   totalComment,
-  //   totalShare,
-  // ) => {
-  //   const db = Firebase.database();
-
-  //   const postId = db.ref().child('posts').push().key;
-  //   const postData = {
-  //     id: postId,
-  //     userId: 1,
-  //     image: image,
-  //     content: content,
-  //     totalLike: totalLike,
-  //     totalComment: totalComment,
-  //     totalShare: totalShare,
-  //     time: Date.now(),
-  //   };
-  //   db.ref('posts/').set(postData);
-  // };
 
   const listAddress = addressList.map(address => (
     <TouchableOpacity>
@@ -118,6 +91,16 @@ const MyPosts = ({navigation}) => {
       <Option nameIcon={'music'} text={music} />
     </TouchableOpacity>
   ));
+
+  const error = () => {
+    if (image == URLImg || content == '') {
+      return (
+        <Text style={{color: 'red', marginBottom: 20}}>
+          Bạn phải nhập đầy đủ hình ảnh và nội dung *
+        </Text>
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -170,7 +153,11 @@ const MyPosts = ({navigation}) => {
             title="Đăng Bài"
             color={'black'}
             onPress={() => {
-              addPost();
+              if (image === URLImg || content === '') {
+                setModalVisible(true);
+              } else {
+                addPost();
+              }
             }}
           />
         </TouchableOpacity>
@@ -213,6 +200,27 @@ const MyPosts = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </RBSheet>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Bạn cần nhập đầy đủ ảnh và nội dung*
+            </Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Thoát</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -243,5 +251,46 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    width: 200,
+  },
+  buttonClose: {
+    backgroundColor: 'black',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    color: 'red',
+    marginBottom: 30,
   },
 });
