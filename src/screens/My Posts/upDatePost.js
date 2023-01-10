@@ -1,5 +1,3 @@
-import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 import React, {useRef, useState} from 'react';
 import {
   Button,
@@ -18,33 +16,13 @@ import Icons from 'react-native-vector-icons/FontAwesome';
 import Option from '../../components/option';
 import {addressList, musicList} from '../../untils/constants';
 
-const MyPosts = ({navigation}) => {
+const UpdatePost = () => {
   const refRBSheet = useRef();
 
   const [content, setContent] = useState('');
   const [image, setImage] = useState(
     'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0',
   );
-
-  async function addPost() {
-    firestore()
-      .collection('posts')
-      .add({
-        id_user: 1,
-        img: image,
-        content: content,
-        total_like: 0,
-        total_comment: 0,
-        total_share: 0,
-        time: Date.now(),
-      })
-      .then(() => {
-        navigation.navigate('Home');
-      })
-      .catch(error => {
-        alert(error.message);
-      });
-  }
 
   const takePhotoFromCamera = async () => {
     ImageCropPicker.openCamera({
@@ -62,51 +40,9 @@ const MyPosts = ({navigation}) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
-      const bucketFile = `image/${imageName}`;
-      const pathToFile = image.path;
-      console.log('link ở đây nèeeee', pathToFile);
-      let reference = storage().ref(bucketFile); // 2
-      let task = reference.putFile(pathToFile); // 3
-      task
-        .then(() => {
-          setImage(pathToFile);
-        })
-        .catch(e => console.log('uploading image error => ', e));
-      // task
-      //   .then(() => {
-      //     // 4
-      //     console.log('Image uploaded to the bucket!');
-      //     console.log('Image', pathToFile);
-      //     setImage(pathToFile);
-      //   })
-      //   .catch(e => console.log('uploading image error => ', e));
+      setImage(image.path);
     });
   };
-
-  // const handleOnPressPost = async (
-  //   image,
-  //   content,
-  //   totalLike,
-  //   totalComment,
-  //   totalShare,
-  // ) => {
-  //   const db = Firebase.database();
-
-  //   const postId = db.ref().child('posts').push().key;
-  //   const postData = {
-  //     id: postId,
-  //     userId: 1,
-  //     image: image,
-  //     content: content,
-  //     totalLike: totalLike,
-  //     totalComment: totalComment,
-  //     totalShare: totalShare,
-  //     time: Date.now(),
-  //   };
-  //   db.ref('posts/').set(postData);
-  // };
-
   const listAddress = addressList.map(address => (
     <TouchableOpacity>
       <Option text={address} />
@@ -166,13 +102,7 @@ const MyPosts = ({navigation}) => {
           />
         </View>
         <TouchableOpacity style={{marginTop: 80}}>
-          <Button
-            title="Đăng Bài"
-            color={'black'}
-            onPress={() => {
-              addPost();
-            }}
-          />
+          <Button title="Lưu Bài Đăng" color={'black'} />
         </TouchableOpacity>
       </View>
 
@@ -217,7 +147,7 @@ const MyPosts = ({navigation}) => {
   );
 };
 
-export default MyPosts;
+export default UpdatePost;
 
 const styles = StyleSheet.create({
   container: {

@@ -2,6 +2,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import HomePage from '../screens/Home/Home';
 import MyPosts from '../screens/My Posts/MyPosts';
+import UpdatePost from '../screens/My Posts/upDatePost';
 import Notify from '../screens/Notify/Notify';
 import Profile from '../screens/Profile/Profile';
 import Search from '../screens/Search/Search';
@@ -31,6 +32,11 @@ const HomeStackNavigator = () => {
         options={{headerTitle: props => <LogoTitle {...props} />}}
       />
       <Stack.Screen name="Posts" component={MyPosts} />
+      <Stack.Screen
+        name="UpdatePost"
+        component={UpdatePost}
+        options={{title: 'Cập Nhập Bài Viết'}}
+      />
     </Stack.Navigator>
   );
 };
@@ -52,6 +58,7 @@ const PostStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+
 const SearchStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>

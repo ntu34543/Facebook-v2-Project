@@ -1,13 +1,5 @@
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
 import React from 'react';
-import Icons from 'react-native-vector-icons/FontAwesome';
+import {Button, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 
 const HomePage = ({navigation}) => {
   navigation.setOptions(
@@ -33,7 +25,11 @@ const HomePage = ({navigation}) => {
   });
   return (
     <View>
-      <Text>index</Text>
+      <Button
+        title="update"
+        color={'black'}
+        onPress={() => navigation.navigate('UpdatePost')}
+      />
     </View>
   );
 };
