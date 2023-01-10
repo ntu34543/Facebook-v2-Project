@@ -14,12 +14,11 @@ import useFirestoreCollection from '../../hooks/useFirestoreCollection';
 import React, {useEffect} from 'react';
 import HomePost from '../../components/Home/HomePost';
 import database from '@react-native-firebase/database';
-import useLoadMore from '../../hooks/useLoadMore';
 
 const HomePage = ({navigation}) => {
-  const ref = database().ref('posts');
+  const reference = database().ref('/posts');
+  const ref = database().ref('items');
   const limit = 10;
-  console.log(ref);
   const {items, loading, endReached, loadMore} = useLoadMore(ref, limit);
 
   // const collection = firestore().collection('posts');
@@ -31,7 +30,7 @@ const HomePage = ({navigation}) => {
   //   page,
   // );
 
-  console.log(items);
+  console.log(data);
   // useEffect(() => {
   //   refresh();
   // }, []);
@@ -44,13 +43,13 @@ const HomePage = ({navigation}) => {
     );
   }
 
-  // if (error) {
-  //   return (
-  //     <View style={HomeStyle.emptyContainer}>
-  //       <Text style={HomeStyle.emptyMessageStyle}>Error: {error.message}</Text>
-  //     </View>
-  //   );
-  // }
+  if (error) {
+    return (
+      <View style={HomeStyle.emptyContainer}>
+        <Text style={HomeStyle.emptyMessageStyle}>Error: {error.message}</Text>
+      </View>
+    );
+  }
 
   navigation.setOptions(
     {
@@ -92,12 +91,12 @@ const HomePage = ({navigation}) => {
           style={HomeStyle.container}
           ListEmptyComponent={renderEmpty}
           keyExtractor={item => item.id}
-          data={items}
+          data={data}
           renderItem={({item}) => {
             return <HomePost item={item} />;
           }}
-          // onRefresh={refresh}
-          // refreshing={loading}
+          onRefresh={refresh}
+          refreshing={loading}
         />
       )}
     </>

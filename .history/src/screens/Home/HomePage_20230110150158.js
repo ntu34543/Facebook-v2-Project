@@ -17,6 +17,7 @@ import database from '@react-native-firebase/database';
 import useLoadMore from '../../hooks/useLoadMore';
 
 const HomePage = ({navigation}) => {
+  // const reference = database().ref('posts');
   const ref = database().ref('posts');
   const limit = 10;
   console.log(ref);
