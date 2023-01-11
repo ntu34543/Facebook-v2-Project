@@ -35,12 +35,31 @@ const MyPosts = ({navigation}) => {
     firestore()
       .collection('posts')
       .add({
-        id_user: 1,
+        id_user: 'O6f6wfLpb9WWxn6ELvfJqHuHRb62',
         img: image,
         content: content,
         total_like: 0,
         total_comment: 0,
         total_share: 0,
+        time: Date.now(),
+      })
+      .then(() => {
+        navigation.navigate('Home');
+        setContent('');
+        setImage(URLImg);
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+  }
+
+  async function addLike() {
+    firestore()
+      .collection('like')
+      .add({
+        id_user: 'O6f6wfLpb9WWxn6ELvfJqHuHRb62',
+        id_like: 1,
+        id_post: 1,
         time: Date.now(),
       })
       .then(() => {
@@ -158,6 +177,7 @@ const MyPosts = ({navigation}) => {
                 setModalVisible(true);
               } else {
                 addPost();
+                addLike();
               }
             }}
           />
