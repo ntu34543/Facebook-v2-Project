@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import HomePage from '../screens/Home/Home';
+import HomePage from '../screens/Home/HomePage';
 import MyPosts from '../screens/My Posts/MyPosts';
 import UpdatePost from '../screens/My Posts/upDatePost';
 import Notify from '../screens/Notify/Notify';
@@ -44,6 +44,13 @@ const ProfileStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen
+        name="Detail Profile"
+        component={DetailProfile}
+        options={{
+          headerTitle: 'Edit Profile',
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -74,6 +81,15 @@ const NotifyStackNavigator = () => {
   );
 };
 
+// const LoginScreenStackNavigator = () => {
+//   return (
+//     <Stack.Navigator screenOptions={screenOptionStyle}>
+//       <Stack.Screen name="Login" component={Login} options={{headerShown: false,}}/>
+//       <Stack.Screen name="Register" component={Register} options={{headerShown: false,}}/>
+//       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false,}}/>
+//     </Stack.Navigator>
+//   );
+// };
 export {
   HomeStackNavigator,
   ProfileStackNavigator,
