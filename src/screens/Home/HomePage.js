@@ -89,7 +89,7 @@ const HomePage = ({navigation}) => {
           keyExtractor={item => item.id}
           data={data.reverse()}
           renderItem={({item}) => {
-            return <HomePost item={item} />;
+            return <HomePost item={item} loading={loading} />;
           }}
           onRefresh={refresh}
           refreshing={loading}

@@ -21,8 +21,6 @@ const DetailPost = ({route, navigation}) => {
   const post = route.params;
   const refRBSheet = useRef();
 
-  console.log(post.id);
-
   const [content, setContent] = useState(post.content);
   const [image, setImage] = useState(post.img);
 

@@ -1,3 +1,4 @@
+import firestore from '@react-native-firebase/firestore';
 import {useEffect, useState} from 'react';
 import {
   Image,
@@ -9,7 +10,7 @@ import {
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome';
 
-const HomePost = ({item}) => {
+const HomePost = ({item, loading}) => {
   const [love, setLove] = useState(Boolean);
 
   useEffect(() => {
@@ -17,112 +18,21 @@ const HomePost = ({item}) => {
   }, []);
 
   function onLovePress() {
-    setLove(Boolean);
+    firestore()
+      .collection('wishList')
+      .add({
+        img: item.img,
+      })
+      .then(() => {
+        loading();
+      })
+      .catch(error => {
+        alert(error.message);
+      });
   }
 
   function FeedPostHeader() {
-    return (
-      <View style={HomeHeaderStyle.container}>
-        <View style={HomeHeaderStyle.userInfo}>
-          {/* <Avatar style={HomeHeaderStyle.userAvatar} url={props.avatar} /> */}
-          <TouchableOpacity>
-            <Image
-              style={HomeHeaderStyle.userAvatar}
-              source={require('../../assets//images/avatar1.jpg')}
-              // source={{uri: item.img,}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={HomeHeaderStyle.userName}>Nguyen Thanh Tu</Text>
-          </TouchableOpacity>
-          <Image
-            style={HomeHeaderStyle.userTick}
-            source={require('../../assets/Icons/tick.jpg')}
-          />
-        </View>
-        <View>
-          <TouchableOpacity>
-            <Icons name="ellipsis-h" size={18} color="black" />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
-  function FeedPostBody() {
-    return (
-      <View>
-        <View>
-          <Image
-            style={HomeBodyStyle.image}
-            source={require('../../assets//images/img1.jpg')}
-            // source={{uri: item.img}}
-          />
-          <View
-            style={{
-              paddingHorizontal: 15,
-              paddingTop: 15,
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <TouchableOpacity>
-                <Image
-                  style={HomeBodyStyle.iconHeart}
-                  source={require('../../assets/Icons/heartNone.jpg')}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image
-                  style={HomeBodyStyle.iconComment}
-                  source={require('../../assets/Icons/comment.jpg')}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image
-                  style={HomeBodyStyle.iconChat}
-                  source={require('../../assets/Icons/chat.jpg')}
-                />
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity>
-                <Image
-                  style={HomeBodyStyle.iconSave}
-                  source={require('../../assets/Icons/save.jpg')}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View
-            style={{
-              paddingHorizontal: 15,
-              paddingTop: 10,
-            }}>
-            <Text style={HomeBodyStyle.like}>
-              Liked by <Text style={{fontWeight: 'bold'}}>craig_love</Text> and{' '}
-              <Text style={{fontWeight: 'bold'}}>44444 others</Text>
-            </Text>
-          </View>
-          <View
-            style={{
-              paddingHorizontal: 15,
-              paddingTop: 10,
-            }}>
-            <Text style={HomeBodyStyle.comment}>
-              <Text style={{fontWeight: 'bold'}}>joshua_l</Text> The game in
-              Japan was amazing and I want to share some photos
-            </Text>
-          </View>
-        </View>
-      </View>
-    );
+    return <View style={HomeHeaderStyle.container}></View>;
   }
 
   return (
