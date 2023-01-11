@@ -21,6 +21,7 @@ import Option from '../../components/option';
 import {addressList, musicList} from '../../untils/constants';
 
 const MyPosts = ({navigation}) => {
+  const idPost = '1';
   const URLImg =
     'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0';
   const refRBSheet = useRef();
@@ -28,6 +29,7 @@ const MyPosts = ({navigation}) => {
   const [content, setContent] = useState('');
   const [image, setImage] = useState(URLImg);
   const [modalVisible, setModalVisible] = useState(false);
+  const [title, setTitle] = useState('Đăng Bài Viết');
 
   async function addPost() {
     firestore()
@@ -57,7 +59,16 @@ const MyPosts = ({navigation}) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      setImage(image.path);
+      const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
+      const bucketFile = `image/${imageName}`;
+      const pathToFile = image.path;
+      let reference = storage().ref(bucketFile); // 2
+      let task = reference.putFile(pathToFile); // 3
+      task
+        .then(() => {
+          setImage(pathToFile);
+        })
+        .catch(e => console.log('uploading image error => ', e));
     });
   };
 
@@ -91,16 +102,6 @@ const MyPosts = ({navigation}) => {
       <Option nameIcon={'music'} text={music} />
     </TouchableOpacity>
   ));
-
-  const error = () => {
-    if (image == URLImg || content == '') {
-      return (
-        <Text style={{color: 'red', marginBottom: 20}}>
-          Bạn phải nhập đầy đủ hình ảnh và nội dung *
-        </Text>
-      );
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -150,7 +151,7 @@ const MyPosts = ({navigation}) => {
         </View>
         <TouchableOpacity style={{marginTop: 80}}>
           <Button
-            title="Đăng Bài"
+            title={title}
             color={'black'}
             onPress={() => {
               if (image === URLImg || content === '') {
