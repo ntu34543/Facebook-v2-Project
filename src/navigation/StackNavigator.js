@@ -1,8 +1,11 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import HomePage from '../screens/Home/HomePage';
+import {
+  default as DetailPost,
+  default as UpdatePost,
+} from '../screens/My Posts/DetailPost';
 import MyPosts from '../screens/My Posts/MyPosts';
-import UpdatePost from '../screens/My Posts/upDatePost';
 import Notify from '../screens/Notify/Notify';
 import Profile from '../screens/Profile/Profile';
 import Search from '../screens/Search/Search';
@@ -25,7 +28,7 @@ const screenOptionStyle = {
 
 const HomeStackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={screenOptionStyle}>
+    <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen
         name="Home"
         component={HomePage}
@@ -45,11 +48,9 @@ const ProfileStackNavigator = () => {
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen
-        name="Detail Profile"
-        component={DetailProfile}
-        options={{
-          headerTitle: 'Edit Profile',
-        }}
+        name="Detail Post"
+        component={DetailPost}
+        options={{title: 'Chi Tiết Bài Viết'}}
       />
     </Stack.Navigator>
   );
@@ -65,7 +66,6 @@ const PostStackNavigator = () => {
     </Stack.Navigator>
   );
 };
-
 const SearchStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>

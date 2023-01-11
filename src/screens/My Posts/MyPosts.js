@@ -55,8 +55,8 @@ const MyPosts = ({navigation}) => {
 
   const takePhotoFromCamera = async () => {
     ImageCropPicker.openCamera({
-      width: 300,
-      height: 400,
+      width: 430,
+      height: 500,
       cropping: true,
     }).then(image => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
@@ -74,8 +74,8 @@ const MyPosts = ({navigation}) => {
 
   const getGalleryImage = async () => {
     ImageCropPicker.openPicker({
-      width: 300,
-      height: 400,
+      width: 430,
+      height: 500,
       cropping: true,
     }).then(image => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);

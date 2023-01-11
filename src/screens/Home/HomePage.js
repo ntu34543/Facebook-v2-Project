@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import React, {useEffect} from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   StyleSheet,
@@ -18,7 +19,7 @@ const HomePage = ({navigation}) => {
   // const {items, loading, endReached, loadMore} = useLoadMore(ref, limit);
 
   const collection = firestore().collection('posts');
-  const pageSize = 6;
+  const pageSize = 100;
   const page = 2;
   const {data, loading, error, refresh} = useFirestoreCollection(
     collection,
@@ -26,7 +27,6 @@ const HomePage = ({navigation}) => {
     page,
   );
 
-  // console.log(items);
   useEffect(() => {
     refresh();
   }, []);
@@ -81,13 +81,13 @@ const HomePage = ({navigation}) => {
   return (
     <>
       {loading ? (
-        <View></View>
+        <ActivityIndicator color="#000000" size="large" />
       ) : (
+        // <HomePost />
         <FlatList
-          style={HomeStyle.container}
           ListEmptyComponent={renderEmpty}
           keyExtractor={item => item.id}
-          data={data}
+          data={data.reverse()}
           renderItem={({item}) => {
             return <HomePost item={item} />;
           }}
@@ -102,11 +102,6 @@ const HomePage = ({navigation}) => {
 export default HomePage;
 
 const HomeStyle = StyleSheet.create({
-  container: {
-    // marginBottom: 20,
-    paddingBottom: 20,
-    backgroundColor: '#FFFFFF',
-  },
   emptyMessageStyle: {
     textAlign: 'center',
     color: 'black',

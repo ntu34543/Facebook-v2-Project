@@ -1,16 +1,25 @@
+import {useEffect, useState} from 'react';
 import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
   Image,
   ScrollView,
-  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome';
 
 const HomePost = ({item}) => {
+  const [love, setLove] = useState(Boolean);
+
+  useEffect(() => {
+    setLove(Boolean);
+  }, []);
+
+  function onLovePress() {
+    setLove(Boolean);
+  }
+
   function FeedPostHeader() {
     return (
       <View style={HomeHeaderStyle.container}>
@@ -19,7 +28,8 @@ const HomePost = ({item}) => {
           <TouchableOpacity>
             <Image
               style={HomeHeaderStyle.userAvatar}
-              source={{uri: item.img,}}
+              source={require('../../assets//images/avatar1.jpg')}
+              // source={{uri: item.img,}}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -43,7 +53,11 @@ const HomePost = ({item}) => {
     return (
       <View>
         <View>
-          <Image style={HomeBodyStyle.image} source={{uri: item.img}} />
+          <Image
+            style={HomeBodyStyle.image}
+            source={require('../../assets//images/img1.jpg')}
+            // source={{uri: item.img}}
+          />
           <View
             style={{
               paddingHorizontal: 15,
@@ -93,7 +107,7 @@ const HomePost = ({item}) => {
             }}>
             <Text style={HomeBodyStyle.like}>
               Liked by <Text style={{fontWeight: 'bold'}}>craig_love</Text> and{' '}
-              <Text style={{fontWeight: 'bold'}}>{item.total_like} others</Text>
+              <Text style={{fontWeight: 'bold'}}>44444 others</Text>
             </Text>
           </View>
           <View
@@ -114,8 +128,114 @@ const HomePost = ({item}) => {
   return (
     <ScrollView>
       <View style={HomeStyle.container}>
-        <FeedPostHeader />
-        <FeedPostBody />
+        {/* <FeedPostHeader /> */}
+        <View style={HomeHeaderStyle.container}>
+          <View style={HomeHeaderStyle.userInfo}>
+            {/* <Avatar style={HomeHeaderStyle.userAvatar} url={props.avatar} /> */}
+            <TouchableOpacity>
+              <Image
+                style={HomeHeaderStyle.userAvatar}
+                source={require('../../assets//images/avatar1.jpg')}
+                // source={{uri: item.img,}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={HomeHeaderStyle.userName}>Nguyen Thanh Tu</Text>
+            </TouchableOpacity>
+            <Image
+              style={HomeHeaderStyle.userTick}
+              source={require('../../assets/Icons/tick.jpg')}
+            />
+          </View>
+          <View>
+            <TouchableOpacity>
+              <Icons name="ellipsis-h" size={18} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* <FeedPostHeader /> */}
+        {/* <FeedPostBody /> */}
+        <View>
+          <View>
+            <Image
+              style={HomeBodyStyle.image}
+              // source={require('../../assets//images/img1.jpg')}
+              source={{uri: item.img}}
+            />
+            <View
+              style={{
+                paddingHorizontal: 15,
+                paddingTop: 15,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <TouchableOpacity onPress={onLovePress}>
+                  {/* <Image
+                    style={HomeBodyStyle.iconHeart}
+                    source={require('../../assets/Icons/heartNone.jpg')}
+                  /> */}
+                  <Icons
+                    color={love ? 'red' : 'black'}
+                    size={25}
+                    name="heart"
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Image
+                    style={HomeBodyStyle.iconComment}
+                    source={require('../../assets/Icons/comment.jpg')}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Image
+                    style={HomeBodyStyle.iconChat}
+                    source={require('../../assets/Icons/chat.jpg')}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity>
+                  <Image
+                    style={HomeBodyStyle.iconSave}
+                    source={require('../../assets/Icons/save.jpg')}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View
+              style={{
+                paddingHorizontal: 15,
+                paddingTop: 10,
+              }}>
+              <Text style={HomeBodyStyle.like}>
+                Liked by{' '}
+                <Text style={{fontWeight: 'bold'}}>User {item.id_user}</Text>{' '}
+                and{' '}
+                <Text style={{fontWeight: 'bold'}}>
+                  {item.total_like} others
+                </Text>
+              </Text>
+            </View>
+            <View
+              style={{
+                paddingHorizontal: 15,
+                paddingTop: 10,
+              }}>
+              <Text style={HomeBodyStyle.comment}>
+                <Text style={{fontWeight: 'bold'}}>User {item.id_user}</Text>{' '}
+                {item.content}
+              </Text>
+            </View>
+          </View>
+        </View>
+        {/* <FeedPostBody /> */}
       </View>
     </ScrollView>
   );
@@ -166,7 +286,7 @@ const HomeHeaderStyle = StyleSheet.create({
 
 const HomeBodyStyle = StyleSheet.create({
   image: {
-    width: '100%',
+    width: 430,
     height: 500,
   },
   iconSave: {

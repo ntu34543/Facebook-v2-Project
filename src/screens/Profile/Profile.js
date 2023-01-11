@@ -1,46 +1,39 @@
+import firestore from '@react-native-firebase/firestore';
+import React, {useEffect} from 'react';
 import {
-  Button,
+  ActivityIndicator,
+  FlatList,
+  Image,
+  SafeAreaView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
-  Image,
-  ScrollView,
+  View,
 } from 'react-native';
-import React, {useState} from 'react';
-import Icons from 'react-native-vector-icons/FontAwesome';
-import {FlatList} from 'react-native-gesture-handler';
+import useFirestoreCollection from '../../hooks/useFirestoreCollection';
 
 const Profile = ({navigation}) => {
-  const [image, setImage] = useState([
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-    {
-      img: require('../../assets/images/img1.jpg'),
-    },
-  ]);
+  const collection = firestore().collection('posts');
+  const pageSize = 100;
+  const page = 2;
+  const {data, loading, error, refresh} = useFirestoreCollection(
+    collection,
+    pageSize,
+    page,
+  );
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={ProfileStyle.emptyContainer}>
+        <Text style={ProfileStyle.emptyMessageStyle}>Loading...</Text>
+      </View>
+    );
+  }
+
   navigation.setOptions(
     {
       headerRight: () => (
@@ -85,7 +78,9 @@ const Profile = ({navigation}) => {
           </Text>
         </View>
         <View style={ProfileHeaderStyle.userBtn}>
-          <TouchableOpacity style={ProfileHeaderStyle.button} onPress={() => navigation.push('Detail Profile')}>
+          <TouchableOpacity
+            style={ProfileHeaderStyle.button}
+            onPress={() => navigation.push('Detail Profile')}>
             <Text style={{fontWeight: 'bold', color: 'black'}}>
               Edit Profile
             </Text>
@@ -130,36 +125,57 @@ const Profile = ({navigation}) => {
     );
   }
 
-  function FeedPostBody() {
-    return (
+  // const listMyPost = data.map(item => {
+  //   return (
+  //     <View>
+  //       <Image style={ProfileBodyStyle.image} source={{uri: item.img}} />
+  //     </View>
+  //   );
+  // });
+
+  return (
+    <View style={ProfileStyle.container}>
+      <FeedPostHeader />
+      {/* <FeedPostBody /> */}
       <View>
         <TouchableOpacity style={ProfileBodyStyle.store}>
           <Image source={require('../../assets/Icons/store.jpg')} />
         </TouchableOpacity>
         <View style={ProfileBodyStyle.body}>
-          <FlatList
-            numColumns={3}
-            data={image}
-            renderItem={({item}) => {
-              return (
-                <View>
-                  <Image style={ProfileBodyStyle.image} source={item.img} />
-                </View>
-              );
-            }}
-          />
+          {loading ? (
+            <ActivityIndicator color="#000000" size="large" />
+          ) : (
+            <SafeAreaView>
+              <FlatList
+                keyExtractor={item => item.id}
+                numColumns={3}
+                data={data}
+                renderItem={({item}) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate('Detail Post', {
+                          id: item.id,
+                          img: item.img,
+                          content: item.content,
+                        });
+                      }}>
+                      <Image
+                        style={ProfileBodyStyle.image}
+                        source={{uri: item.img}}
+                      />
+                    </TouchableOpacity>
+                  );
+                }}
+                onRefresh={refresh}
+                refreshing={loading}
+              />
+            </SafeAreaView>
+          )}
         </View>
       </View>
-    );
-  }
-
-  return (
-    <ScrollView>
-      <View style={ProfileStyle.container}>
-        <FeedPostHeader />
-        <FeedPostBody />
-      </View>
-    </ScrollView>
+      {/* <FeedPostBody /> */}
+    </View>
   );
 };
 
@@ -173,6 +189,16 @@ const ProfileStyle = StyleSheet.create({
   },
   text: {
     color: 'black',
+  },
+  emptyMessageStyle: {
+    textAlign: 'center',
+    color: 'black',
+    fontSize: 30,
+  },
+  emptyContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

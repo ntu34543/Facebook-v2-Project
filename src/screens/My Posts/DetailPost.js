@@ -1,3 +1,4 @@
+import firestore from '@react-native-firebase/firestore';
 import React, {useRef, useState} from 'react';
 import {
   Button,
@@ -16,13 +17,14 @@ import Icons from 'react-native-vector-icons/FontAwesome';
 import Option from '../../components/option';
 import {addressList, musicList} from '../../untils/constants';
 
-const UpdatePost = () => {
+const DetailPost = ({route, navigation}) => {
+  const post = route.params;
   const refRBSheet = useRef();
 
-  const [content, setContent] = useState('');
-  const [image, setImage] = useState(
-    'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0',
-  );
+  console.log(post.id);
+
+  const [content, setContent] = useState(post.content);
+  const [image, setImage] = useState(post.img);
 
   const takePhotoFromCamera = async () => {
     ImageCropPicker.openCamera({
@@ -42,6 +44,17 @@ const UpdatePost = () => {
     }).then(image => {
       setImage(image.path);
     });
+  };
+
+  const deletePost = () => {
+    firestore()
+      .collection('posts')
+      .doc(post.id)
+      .delete()
+      .then(() => {
+        console.log('User deleted!');
+        navigation.navigate('Profile');
+      });
   };
   const listAddress = addressList.map(address => (
     <TouchableOpacity>
@@ -104,6 +117,9 @@ const UpdatePost = () => {
         <TouchableOpacity style={{marginTop: 80}}>
           <Button title="Lưu Bài Đăng" color={'black'} />
         </TouchableOpacity>
+        <TouchableOpacity style={{marginTop: 80}}>
+          <Button title="Xóa Bài Viết" color={'black'} />
+        </TouchableOpacity>
       </View>
 
       <RBSheet
@@ -147,7 +163,7 @@ const UpdatePost = () => {
   );
 };
 
-export default UpdatePost;
+export default DetailPost;
 
 const styles = StyleSheet.create({
   container: {
