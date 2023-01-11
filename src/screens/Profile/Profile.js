@@ -149,7 +149,7 @@ const Profile = ({navigation}) => {
               <FlatList
                 keyExtractor={item => item.id}
                 numColumns={3}
-                data={data}
+                data={data.reverse()}
                 renderItem={({item}) => {
                   return (
                     <TouchableOpacity

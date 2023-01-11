@@ -1,36 +1,38 @@
+import {initializeApp} from 'firebase/app';
+import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
+import React from 'react';
 import {
+  Alert,
+  Image,
+  SafeAreaView,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
   TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import {React, useState} from 'react';
-import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
 import Icons from 'react-native-vector-icons/FontAwesome';
-import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
+import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
+import {firebaseConfig} from '../../firebase';
 
 const ForgotPassword = ({navigation}) => {
-  const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errortext, setErrortext] = useState("");
-  
-    const forgotPassword = () => {
-      if (email != null) {
-        auth()
-          .sendPasswordResetEmail(email)
-          .then(() => {
-            alert("reset email sent to have been successful!");
-          })
-          .catch(function (e) {
-            console.log(e);
-          });
-      } else {
-        alert("Please enter a valid email!")
-      }
-    };
+  const [email, setEmail] = React.useState('');
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const handleForgotPassword = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(response => {
+        console.log('response', response);
+        navigation.navigate('Login');
+        Alert.alert('Please check your email for a reset password link.');
+      })
+      .catch(error => {
+        console.log(error);
+        Alert.alert(error.message);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,30 +51,15 @@ const ForgotPassword = ({navigation}) => {
         </Text>
         <View style={styles.loginForm}>
           <View style={styles.textInputWrapper}>
-            {/* <TextInput
-                autoCapitalize="none"
-                placeholder="Username, email or phone number"
-                style={styles.input}
-              /> */}
-            {submitted ? (
-              <Text>Please check your email for a reset password link.</Text>
-            ) : (
-              <>
-                <TextInput
-                  value={email}
-                  onChangeText={setEmail}
-                  keyboardType="email-address"
-                  placeholder="Enter email address"
-                  autoCapitalize="none"
-                  placeholderTextColor="#aaa"
-                  style={styles.input}
-                />
-              </>
-            )}
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Email"
+              style={styles.input}
+              onChangeText={text => setEmail(text)}
+            />
           </View>
           <TouchableOpacity
-            onPress={resetUserPassword}
-            disabled={!email}
+            onPress={handleForgotPassword}
             activeOpacity={0.6}
             style={{
               ...styles.btnLogin,

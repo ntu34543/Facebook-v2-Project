@@ -44,6 +44,20 @@ const DetailPost = ({route, navigation}) => {
     });
   };
 
+  const updatePost = () => {
+    firestore()
+      .collection('posts')
+      .doc(post.id)
+      .update({
+        img: image,
+        content: content,
+      })
+      .then(() => {
+        console.log('User updated!');
+        navigation.navigate('Profile');
+      });
+  };
+
   const deletePost = () => {
     firestore()
       .collection('posts')
@@ -54,6 +68,7 @@ const DetailPost = ({route, navigation}) => {
         navigation.navigate('Profile');
       });
   };
+
   const listAddress = addressList.map(address => (
     <TouchableOpacity>
       <Option text={address} />
@@ -113,10 +128,10 @@ const DetailPost = ({route, navigation}) => {
           />
         </View>
         <TouchableOpacity style={{marginTop: 80}}>
-          <Button title="Lưu Bài Đăng" color={'black'} />
+          <Button title="Lưu Bài Đăng" color={'black'} onPress={updatePost} />
         </TouchableOpacity>
         <TouchableOpacity style={{marginTop: 80}}>
-          <Button title="Xóa Bài Viết" color={'black'} />
+          <Button title="Xóa Bài Viết" color={'black'} onPress={deletePost} />
         </TouchableOpacity>
       </View>
 

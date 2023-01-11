@@ -1,18 +1,19 @@
+import {initializeApp} from 'firebase/app';
+import {createUserWithEmailAndPassword, getAuth} from 'firebase/auth';
+import React from 'react';
 import {
+  Alert,
+  Image,
+  SafeAreaView,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
   TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import React from 'react';
-import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
 import Icons from 'react-native-vector-icons/FontAwesome';
-import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
-import {initializeApp} from 'firebase/app';
-import {firebaseConfig} from '../../services/firebase/index';
+import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
+import {firebaseConfig} from '../../firebase/index';
 
 const Register = ({navigation}) => {
   const [email, setEmail] = React.useState('');
@@ -28,6 +29,7 @@ const Register = ({navigation}) => {
         const user = userCredential.user;
         console.log(user);
         navigation.navigate('Login');
+        Alert.alert('Account successfully created');
       })
       .catch(error => {
         console.log(error);
@@ -56,6 +58,8 @@ const Register = ({navigation}) => {
           </View>
           <View style={styles.textInputWrapper}>
             <TextInput
+              secureTextEntry
+              autoCapitalize="none"
               placeholder="Password"
               style={styles.input}
               onChangeText={text => setPassword(text)}
