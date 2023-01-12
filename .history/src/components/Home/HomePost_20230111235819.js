@@ -15,17 +15,17 @@ const USERS_COLLECTION = 'users';
 const POST_COLLECTTION = 'posts';
 const WISHLIST_COLLECTION = 'wishList';
 const HomePost = ({item}) => {
-  const [love, setLove] = useState(Boolean);
+  const [love, setLove] = useState(false);
   const [idWistList, setIdWistList] = useState(null);
-
   async function Love() {
     firestore()
       .collection(WISHLIST_COLLECTION)
       .add({
         img: item.img,
+        id: item.id,
       })
       .then(doc => {
-        setLove(!love);
+        setLove(true);
         setIdWistList(doc.id);
         // alert('Add');
       })
@@ -35,13 +35,14 @@ const HomePost = ({item}) => {
   }
 
   async function DisLove() {
+    console.log(idWistList);
     firestore()
       .collection(WISHLIST_COLLECTION)
-      .doc(idWistList)
-      .delete()
+      .doc(WISHLIST_COLLECTION)
+      .delete(idWistList)
       .then(() => {
         // alert(idWistList);
-        setLove(!love);
+        setLove(false);
       })
       .catch(error => {
         alert(error.message);
@@ -112,10 +113,15 @@ const HomePost = ({item}) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <TouchableOpacity>
-                  <Image
+                <TouchableOpacity onPress={onLovePress}>
+                  {/* <Image
                     style={HomeBodyStyle.iconHeart}
                     source={require('../../assets/Icons/heartNone.jpg')}
+                  /> */}
+                  <Icons
+                    color={love ? 'red' : 'black'}
+                    size={25}
+                    name="heart"
                   />
                 </TouchableOpacity>
                 <TouchableOpacity>
@@ -132,11 +138,10 @@ const HomePost = ({item}) => {
                 </TouchableOpacity>
               </View>
               <View>
-                <TouchableOpacity onPress={onLovePress}>
-                  <Icons
-                    color="black"
-                    size={25}
-                    name={love ? 'bookmark' : 'bookmark-o'}
+                <TouchableOpacity>
+                  <Image
+                    style={HomeBodyStyle.iconSave}
+                    source={require('../../assets/Icons/save.jpg')}
                   />
                 </TouchableOpacity>
               </View>

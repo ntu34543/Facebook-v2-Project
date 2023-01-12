@@ -25,7 +25,7 @@ const HomePost = ({item}) => {
         img: item.img,
       })
       .then(doc => {
-        setLove(!love);
+        setLove(true);
         setIdWistList(doc.id);
         // alert('Add');
       })
@@ -41,7 +41,7 @@ const HomePost = ({item}) => {
       .delete()
       .then(() => {
         // alert(idWistList);
-        setLove(!love);
+        setLove(false);
       })
       .catch(error => {
         alert(error.message);

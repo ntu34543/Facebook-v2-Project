@@ -76,7 +76,7 @@ const SearchStackNavigator = () => {
 const NotifyStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="WishList" component={WishList} />
+      <Stack.Screen name="Notify" component={WishList} />
     </Stack.Navigator>
   );
 };

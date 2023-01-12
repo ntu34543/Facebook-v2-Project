@@ -15,7 +15,7 @@ const USERS_COLLECTION = 'users';
 const POST_COLLECTTION = 'posts';
 const WISHLIST_COLLECTION = 'wishList';
 const HomePost = ({item}) => {
-  const [love, setLove] = useState(Boolean);
+  const [love, setLove] = useState(false);
   const [idWistList, setIdWistList] = useState(null);
 
   async function Love() {
@@ -25,7 +25,7 @@ const HomePost = ({item}) => {
         img: item.img,
       })
       .then(doc => {
-        setLove(!love);
+        setLove(true);
         setIdWistList(doc.id);
         // alert('Add');
       })
@@ -41,7 +41,7 @@ const HomePost = ({item}) => {
       .delete()
       .then(() => {
         // alert(idWistList);
-        setLove(!love);
+        setLove(false);
       })
       .catch(error => {
         alert(error.message);
