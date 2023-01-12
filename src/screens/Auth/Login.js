@@ -14,6 +14,7 @@ import {
 import Icons from 'react-native-vector-icons/FontAwesome';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
 import {firebaseConfig} from '../../firebase/index';
+import {getData, storeData} from '../../hooks/store';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = React.useState('');
@@ -24,10 +25,11 @@ const Login = ({navigation}) => {
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
+      .then(async () => {
+        await storeData('email', email);
+        const getEmail = await getData('email');
+        console.log('email', getEmail);
         console.log('Signed in!');
-        const user = userCredential.user;
-        console.log(user);
         navigation.navigate('Home');
         Alert.alert('Login successfully');
       })
@@ -35,6 +37,17 @@ const Login = ({navigation}) => {
         console.log(error);
         Alert.alert(error.message);
       });
+    // .then(async () => {
+    //   const token = await (await auth().currentUser.getIdTokenResult()).token;
+    //   // storeData('pnvoToken', token);
+    //   console.log(token);
+    // })
+  };
+
+  const getToken = async () => {
+    const token = await (await auth().currentUser.getIdTokenResult()).token;
+    //   // storeData('pnvoToken', token);
+    console.log('ew546', token);
   };
 
   return (
@@ -44,7 +57,7 @@ const Login = ({navigation}) => {
           <Image
             resizeMode="contain"
             style={styles.logo}
-            source={require('../../assets/images/logo.png')}
+            source={require('../../assets/images/FASHIONLOGO.png')}
           />
         </View>
         <View style={styles.loginForm}>
@@ -66,7 +79,10 @@ const Login = ({navigation}) => {
             />
           </View>
           <TouchableOpacity
-            onPress={handleSignIn}
+            onPress={() => {
+              handleSignIn();
+              getToken();
+            }}
             activeOpacity={0.6}
             style={{
               ...styles.btnLogin,
@@ -175,6 +191,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 64,
+    width: 200,
     overflow: 'hidden',
   },
   loginForm: {

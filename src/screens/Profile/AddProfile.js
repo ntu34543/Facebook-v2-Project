@@ -6,8 +6,6 @@ import {
   Image,
   Modal,
   Pressable,
-  SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -17,60 +15,24 @@ import {
 import ImageCropPicker from 'react-native-image-crop-picker';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Icons from 'react-native-vector-icons/FontAwesome';
-import Option from '../../components/option';
-import {addressList, musicList} from '../../untils/constants';
+import {storeData} from '../../hooks/store';
 
-const MyPosts = ({navigation}) => {
-  const idPost = '1';
+const AddProfile = ({route, navigation}) => {
+  const email = route.params.email;
+
+  const getEmail = async () => {
+    await storeData('email', email);
+  };
+
+  getEmail();
+
   const URLImg =
     'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0';
   const refRBSheet = useRef();
 
-  const [content, setContent] = useState('');
-  const [image, setImage] = useState(URLImg);
+  const [name, setName] = useState('');
+  const [avatar, setAvatar] = useState(URLImg);
   const [modalVisible, setModalVisible] = useState(false);
-  const [title, setTitle] = useState('Đăng Bài Viết');
-
-  async function addPost() {
-    firestore()
-      .collection('posts')
-      .add({
-        id_user: 'O6f6wfLpb9WWxn6ELvfJqHuHRb62',
-        img: image,
-        content: content,
-        total_like: 0,
-        total_comment: 0,
-        total_share: 0,
-        time: Date.now(),
-      })
-      .then(() => {
-        navigation.navigate('Home');
-        setContent('');
-        setImage(URLImg);
-      })
-      .catch(error => {
-        alert(error.message);
-      });
-  }
-
-  async function addLike() {
-    firestore()
-      .collection('like')
-      .add({
-        id_user: 'O6f6wfLpb9WWxn6ELvfJqHuHRb62',
-        id_like: 1,
-        id_post: 1,
-        time: Date.now(),
-      })
-      .then(() => {
-        navigation.navigate('Home');
-        setContent('');
-        setImage(URLImg);
-      })
-      .catch(error => {
-        alert(error.message);
-      });
-  }
 
   const takePhotoFromCamera = async () => {
     ImageCropPicker.openCamera({
@@ -85,7 +47,7 @@ const MyPosts = ({navigation}) => {
       let task = reference.putFile(pathToFile); // 3
       task
         .then(() => {
-          setImage(pathToFile);
+          setAvatar(pathToFile);
         })
         .catch(e => console.log('uploading image error => ', e));
     });
@@ -104,81 +66,58 @@ const MyPosts = ({navigation}) => {
       let task = reference.putFile(pathToFile); // 3
       task
         .then(() => {
-          setImage(pathToFile);
+          setAvatar(pathToFile);
         })
         .catch(e => console.log('uploading image error => ', e));
     });
   };
 
-  const listAddress = addressList.map(address => (
-    <TouchableOpacity>
-      <Option text={address} />
-    </TouchableOpacity>
-  ));
-
-  const listMusic = musicList.map(music => (
-    <TouchableOpacity>
-      <Option nameIcon={'music'} text={music} />
-    </TouchableOpacity>
-  ));
+  async function addProfile() {
+    firestore()
+      .collection('users')
+      .add({
+        avatar: avatar,
+        name: name,
+        email: email,
+      })
+      .then(() => {
+        navigation.navigate('Home');
+        setName('');
+        setAvatar(URLImg);
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <View style={styles.flex}>
+        <View style={{alignSelf: 'center'}}>
           <TouchableOpacity onPress={() => refRBSheet.current.open()}>
-            <Image source={{uri: image}} style={{width: 50, height: 50}} />
+            <Image
+              source={{uri: avatar}}
+              style={{width: 150, height: 150, borderRadius: 100}}
+            />
           </TouchableOpacity>
-          <TextInput
-            placeholder="Viết chú thích..."
-            style={{marginLeft: 20}}
-            value={content}
-            onChangeText={newText => setContent(newText)}
-          />
         </View>
-        <Text style={[styles.flex, styles.text]}>Gắn thẻ người khác</Text>
-        <Text style={[styles.flex, styles.text]}>Thêm vị trí</Text>
-        <SafeAreaView>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {listAddress}
-          </ScrollView>
-        </SafeAreaView>
-        <Text style={[styles.flex, styles.text]}>Thêm nhạc</Text>
-        <SafeAreaView>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {listMusic}
-          </ScrollView>
-        </SafeAreaView>
-        <Text style={styles.text}>Cùng Đăng lên</Text>
-        <View style={{flexDirection: 'row', marginTop: 20}}>
-          <Image
-            style={styles.avata}
-            source={{
-              uri: 'https://lh3.googleusercontent.com/p6PgOuxKD9KyYshnSn-C4Xye6jWjQrXXi82d9CfjQ07haikyFnaQlCLQM8J08R60ndXOoLvR4yB3isM-tFXPEjguwXtszA=w622',
-            }}
-          />
-          <View style={{marginLeft: 20}}>
-            <Text style={styles.text}>Facebook</Text>
-            <Text>Meo CuTe</Text>
-          </View>
-          <Icons
-            name={'toggle-on'}
-            size={30}
-            color={'#4f9fcf'}
-            style={{marginLeft: 180, marginTop: 5}}
-          />
-        </View>
+        <TextInput
+          placeholder="Tên người dùng..."
+          style={{
+            marginLeft: 20,
+            marginTop: 50,
+            borderBottomColor: '#999999',
+            borderBottomWidth: 1,
+          }}
+          value={name}
+          onChangeText={newText => setName(newText)}
+        />
         <TouchableOpacity style={{marginTop: 80}}>
           <Button
-            title={title}
+            title={'Lưu Thông Tin'}
             color={'black'}
             onPress={() => {
-              if (image === URLImg || content === '') {
-                setModalVisible(true);
-              } else {
-                addPost();
-                addLike();
-              }
+              addProfile();
             }}
           />
         </TouchableOpacity>
@@ -246,7 +185,7 @@ const MyPosts = ({navigation}) => {
   );
 };
 
-export default MyPosts;
+export default AddProfile;
 
 const styles = StyleSheet.create({
   container: {

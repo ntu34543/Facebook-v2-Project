@@ -12,6 +12,13 @@ import {
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  // const getEmail = async () => {
+  //   return await getData('email');
+  // };
+  // const query = firebase
+  //   .firestore()
+  //   .collection('users')
+  //   .where('email', '==', getEmail());
   return (
     <Tab.Navigator
       initialRouteName="Home"

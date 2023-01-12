@@ -28,7 +28,7 @@ const Register = ({navigation}) => {
         console.log('Account created!');
         const user = userCredential.user;
         console.log(user);
-        navigation.navigate('Login');
+        navigation.navigate('CreateProfile', {email: email});
         Alert.alert('Account successfully created');
       })
       .catch(error => {
@@ -44,7 +44,7 @@ const Register = ({navigation}) => {
           <Image
             resizeMode="contain"
             style={styles.logo}
-            source={require('../../assets/images/logo.png')}
+            source={require('../../assets/images/FASHIONLOGO.png')}
           />
         </View>
         <View style={styles.loginForm}>
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 64,
+    width: 200,
     overflow: 'hidden',
   },
   loginForm: {
