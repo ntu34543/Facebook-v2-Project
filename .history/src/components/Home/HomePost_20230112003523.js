@@ -15,7 +15,7 @@ const USERS_COLLECTION = 'users';
 const POST_COLLECTTION = 'posts';
 const WISHLIST_COLLECTION = 'wishList';
 const HomePost = ({item}) => {
-  const [love, setLove] = useState(Boolean);
+  const [love, setLove] = useState(false);
   const [idWistList, setIdWistList] = useState(null);
 
   async function Love() {
@@ -25,7 +25,7 @@ const HomePost = ({item}) => {
         img: item.img,
       })
       .then(doc => {
-        setLove(!love);
+        setLove(true);
         setIdWistList(doc.id);
         // alert('Add');
       })
@@ -41,7 +41,7 @@ const HomePost = ({item}) => {
       .delete()
       .then(() => {
         // alert(idWistList);
-        setLove(!love);
+        setLove(false);
       })
       .catch(error => {
         alert(error.message);
@@ -132,11 +132,15 @@ const HomePost = ({item}) => {
                 </TouchableOpacity>
               </View>
               <View>
-                <TouchableOpacity onPress={onLovePress}>
+                <TouchableOpacity>
+                  {/* <Image
+                    style={HomeBodyStyle.iconSave}
+                    source={require('../../assets/Icons/save.jpg')}
+                  /> */}
                   <Icons
-                    color="black"
+                    color={love ? 'red' : 'black'}
                     size={25}
-                    name={love ? 'bookmark' : 'bookmark-o'}
+                    name="heart"
                   />
                 </TouchableOpacity>
               </View>
@@ -146,14 +150,14 @@ const HomePost = ({item}) => {
                 paddingHorizontal: 15,
                 paddingTop: 10,
               }}>
-              {/* <Text style={HomeBodyStyle.like}>
+              <Text style={HomeBodyStyle.like}>
                 Liked by{' '}
                 <Text style={{fontWeight: 'bold'}}>User {item.id_user}</Text>{' '}
                 and{' '}
                 <Text style={{fontWeight: 'bold'}}>
                   {item.total_like} others
                 </Text>
-              </Text> */}
+              </Text>
             </View>
             <View
               style={{
@@ -161,7 +165,7 @@ const HomePost = ({item}) => {
                 paddingTop: 10,
               }}>
               <Text style={HomeBodyStyle.comment}>
-                {/* <Text style={{fontWeight: 'bold'}}>User {item.id_user}</Text>{' '} */}
+                <Text style={{fontWeight: 'bold'}}>User {item.id_user}</Text>{' '}
                 {item.content}
               </Text>
             </View>
