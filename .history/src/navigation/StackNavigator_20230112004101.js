@@ -6,7 +6,7 @@ import {
   default as UpdatePost,
 } from '../screens/My Posts/DetailPost';
 import MyPosts from '../screens/My Posts/MyPosts';
-import WishList from '../screens/WishList/WishList';
+import W
 import Profile from '../screens/Profile/Profile';
 import Search from '../screens/Search/Search';
 import LogoTitle from '../themes/LogoTitle';
@@ -76,7 +76,7 @@ const SearchStackNavigator = () => {
 const NotifyStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="WishList" component={WishList} />
+      <Stack.Screen name="Notify" component={Notify} />
     </Stack.Navigator>
   );
 };

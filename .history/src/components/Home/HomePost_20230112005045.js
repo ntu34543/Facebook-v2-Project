@@ -41,7 +41,7 @@ const HomePost = ({item}) => {
       .delete()
       .then(() => {
         // alert(idWistList);
-        setLove(!love);
+        setLove(false);
       })
       .catch(error => {
         alert(error.message);

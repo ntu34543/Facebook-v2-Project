@@ -14,7 +14,7 @@ const RegisterScreen = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Login"
             component={Login}
