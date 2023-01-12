@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Button, Image} from 'react-native';
+import {Image} from 'react-native';
 
 function LogoTitle() {
   return (
     <Image
-      source={require('../assets/images/LogoHome.jpg')}
+      style={{height: 26, width: 150, overflow: 'hidden'}}
+      source={require('../assets/images/FASHIONLOGO.png')}
     />
   );
 }

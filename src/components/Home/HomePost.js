@@ -124,14 +124,14 @@ const HomePost = ({item, loading}) => {
                 paddingHorizontal: 15,
                 paddingTop: 10,
               }}>
-              <Text style={HomeBodyStyle.like}>
+              {/* <Text style={HomeBodyStyle.like}>
                 Liked by{' '}
                 <Text style={{fontWeight: 'bold'}}>User {item.id_user}</Text>{' '}
                 and{' '}
                 <Text style={{fontWeight: 'bold'}}>
                   {item.total_like} others
                 </Text>
-              </Text>
+              </Text> */}
             </View>
             <View
               style={{
@@ -139,7 +139,7 @@ const HomePost = ({item, loading}) => {
                 paddingTop: 10,
               }}>
               <Text style={HomeBodyStyle.comment}>
-                <Text style={{fontWeight: 'bold'}}>User {item.id_user}</Text>{' '}
+                {/* <Text style={{fontWeight: 'bold'}}>User {item.id_user}</Text>{' '} */}
                 {item.content}
               </Text>
             </View>

@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+
 import React, {useEffect} from 'react';
 import {
   ActivityIndicator,
@@ -44,6 +45,7 @@ const Profile = ({navigation}) => {
     },
     [navigation],
   );
+
   function FeedPostHeader() {
     return (
       <View style={ProfileHeaderStyle.container}>
@@ -80,7 +82,7 @@ const Profile = ({navigation}) => {
         <View style={ProfileHeaderStyle.userBtn}>
           <TouchableOpacity
             style={ProfileHeaderStyle.button}
-            onPress={() => navigation.push('Detail Profile')}>
+            onPress={() => navigation.push('Add profile')}>
             <Text style={{fontWeight: 'bold', color: 'black'}}>
               Edit Profile
             </Text>
